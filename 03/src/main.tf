@@ -1,9 +1,22 @@
 resource "yandex_vpc_network" "develop" {
   name = var.vpc_name
 }
+
 resource "yandex_vpc_subnet" "develop" {
   name           = var.vpc_name
   zone           = var.default_zone
   network_id     = yandex_vpc_network.develop.id
   v4_cidr_blocks = var.default_cidr
+}
+
+resource "yandex_vpc_subnet" "develop_db" {
+  name           = "${var.vpc_name}-db"
+  zone           = var.default_zone
+  network_id     = yandex_vpc_network.develop.id
+  v4_cidr_blocks = var.default_db_cidr
+}
+
+###boot system ==============================================================
+data "yandex_compute_image" "ubuntu" {
+  family = var.vm_image_family
 }
