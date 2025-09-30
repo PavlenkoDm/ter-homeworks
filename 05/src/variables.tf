@@ -14,6 +14,7 @@ variable "folder_id" {
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
 }
 
+### network block ============================================================
 variable "default_zone" {
   type        = string
   default     = "ru-central1-a"
@@ -35,7 +36,7 @@ variable "vpc_name" {
 
 variable "vms_ssh_root_key" {
   type        = string
-  default     = "your_ssh_ed25519_key"
+  default     = ""
   description = "ssh-keygen -t ed25519"
 }
 
@@ -51,6 +52,11 @@ variable "vm_db_name" {
   type        = string
   default     = "netology-develop-platform-db"
   description = "example vm_db_ prefix"
+}
+
+variable "image_family" {
+  type = string
+  default = "ubuntu-2004-lts"
 }
 
 
