@@ -6,6 +6,11 @@ variable "env_name" {
     condition     = length(var.env_name) > 0
     error_message = "Environment name cannot be empty."
   }
+
+  validation {
+    condition     = contains(["develop", "stage", "prod"], var.env_name)
+    error_message = "Environment name must be one of: develop, stage, prod."
+  }
 }
 
 variable "zone" {
