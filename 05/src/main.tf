@@ -8,73 +8,77 @@
 #   v4_cidr_blocks = var.default_cidr
 # }
 
-module "vpc_dev" {
-  source   = "./vpc"
-  env_name = var.vpc_name
-  zone     = var.default_zone
-  cidr     = var.default_cidr[0]
-}
+# module "vpc_dev" {
+#   source   = "./vpc"
+#   env_name = var.vpc_name
+#   zone     = var.default_zone
+#   cidr     = var.default_cidr[0]
+# }
 
 
-data "template_file" "cloudinit" {
-  template = file("./cloud-init.yml")
+# data "template_file" "cloudinit" {
+#   template = file("./cloud-init.yml")
   
-  vars = {
-    ssh_public_key = file("~/.ssh/id_ed25519.pub")
-  }
-}
+#   vars = {
+#     ssh_public_key = file("~/.ssh/id_ed25519.pub")
+#   }
+# }
 
-module "marketing_vm" {
-  source = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+# module "marketing_vm" {
+#   source = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
 
-  env_name = var.vpc_name
+#   env_name = var.vpc_name
 
-  network_id = module.vpc_dev.network_id
-  subnet_zones = [var.default_zone]
-  subnet_ids = [module.vpc_dev.subnet_id]
+#   network_id = module.vpc_dev.network_id
+#   subnet_zones = [var.default_zone]
+#   subnet_ids = [module.vpc_dev.subnet_id]
 
-  instance_name = "marketing-web"
-  instance_count = 1
+#   instance_name = "marketing-web"
+#   instance_count = 1
 
-  image_family = var.image_family
+#   image_family = var.image_family
 
-  public_ip = true
+#   public_ip = true
   
-  labels = { 
-    owner   = "student",
-    project = "marketing"
-  }
+#   labels = { 
+#     owner   = "student",
+#     project = "marketing"
+#   }
 
-  metadata = {
-    user-data = data.template_file.cloudinit.rendered
-    serial-port-enable = 1
-  }
-}
+#   metadata = {
+#     user-data = data.template_file.cloudinit.rendered
+#     serial-port-enable = 1
+#   }
+# }
 
-module "analytics_vm" {
-  source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+# module "analytics_vm" {
+#   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
 
-  env_name       = var.vpc_name
+#   env_name       = var.vpc_name
 
-  network_id     = module.vpc_dev.network_id
-  subnet_zones   = [var.default_zone]
-  subnet_ids     = [module.vpc_dev.subnet_id]
+#   network_id     = module.vpc_dev.network_id
+#   subnet_zones   = [var.default_zone]
+#   subnet_ids     = [module.vpc_dev.subnet_id]
 
-  instance_name  = "analytics-web"
-  instance_count = 1
+#   instance_name  = "analytics-web"
+#   instance_count = 1
 
-  image_family   = var.image_family
+#   image_family   = var.image_family
   
-  public_ip      = true
+#   public_ip      = true
 
-  labels = { 
-    owner   = "student",
-    project = "analytics"
-  }
+#   labels = { 
+#     owner   = "student",
+#     project = "analytics"
+#   }
 
-  metadata = {
-    user-data          = data.template_file.cloudinit.rendered
-    serial-port-enable = 1
-  }
+#   metadata = {
+#     user-data          = data.template_file.cloudinit.rendered
+#     serial-port-enable = 1
+#   }
+# }
+
+resource "random_password" "any_uniq_name" {
+  length = 20
 }
 
