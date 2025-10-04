@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">=1.8.4"
+
   backend "s3" {
     
     shared_credentials_files = ["~/.aws/credentials"]
@@ -24,12 +26,18 @@ terraform {
 
     dynamodb_table              = "tfstate-lock-tb"
   }
+
   required_providers {
     yandex = {
       source = "yandex-cloud/yandex"
+      version = "~> 0.159.0"
     }
-  }
-  required_version = ">=1.8.4"
+
+    template = {
+      source  = "hashicorp/template"
+      version = "~> 2.2.0"
+    }
+  }  
 }
 
 provider "yandex" {
